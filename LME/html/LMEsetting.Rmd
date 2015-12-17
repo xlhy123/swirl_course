@@ -1,0 +1,24 @@
+---
+title: "Linear mix-effects model: math setting"
+output: html_document
+---
+
+Linear mixed-effects models are extensions of linear regression models for data that are collected and summarized in groups. These models describe the relationship between a response variable and independent variables, with coefficients that can vary with respect to one or more grouping variables. A mixed-effects model consists of two parts, fixed effects and random effects. Fixed-effects terms are usually the conventional linear regression part, and the random effects are associated with individual experimental units drawn at random from a population. The random effects have prior distributions whereas fixed effects do not. Mixed-effects models can represent the covariance structure related to the grouping of data by associating the common random effects to observations that have the same level of a grouping variable. The standard form of a linear mixed-effects model is
+
+$$y = \mathit{X \beta} + \mathit{Zb} + \epsilon$$
+
+where
+
+* $y$ is the $n$-by-$1$ response vector, and $n$ is the number of observations.
+* $X$ is an $n$-by-$p$ fixed-effects design matrix.
+* $\beta$ is a $p$-by-1 fixed-effects vector.
+* $Z$ is an $n$-by-$q$ random-effects design matrix.
+* $b$ is a $q$-by-1 random-effects vector.
+* $\epsilon$ is the $n$-by-1 observation error vector.
+
+The assumptions for the linear mixed-effects model are:
+
+Random-effects vector, $b$, and the error vector, $\epsilon$, have the following prior distributions:
+$$ b \sim N(0,\sigma^2 D(\theta)), \quad \epsilon \sim N(0,\sigma^2 I),$$
+where $D$ is a symmetric and positive semidefinite matrix, parameterized by a variance component vector $\theta$, I is an $n$-by-$n$ identity matrix, and $\sigma^2$ is the error variance.
+Random-effects vector, $b$, and the error vector, $\epsilon$, are independent from each other.

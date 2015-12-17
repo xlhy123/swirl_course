@@ -1,0 +1,207 @@
+- Class: meta
+  Course: swirl course
+  Lesson: LME
+  Author: Hanying Li
+  Type: Standard
+  Organization: Department of Biostatistics, JHSPH
+  Version: 2.2.21
+
+
+- Class: text
+  Output: "Welcome to the class! In this course, you'll learn how to implement linear mixed effects model in R. 
+  The course design includes theoretical setting, a simulation example, and a real dataset to be handled. Please 
+  make sure you have installed the package lme4. If not, you could install the package first and 
+  then return to the course."
+
+- Class: figure
+  Output: "First let's learn some math about linear mixed effects model in Rstudio viewer or in the browser and then return here. If you are in Rstudio you probably have to click on the viewer tab."
+  Figure: LMEsetting.R
+  FigureType: new
+
+- Class: figure
+  Output: "Let's start from the simple LME models with one continuous predictor and one grouping variable with M levels"
+  Figure: LMEsimple.R
+  FigureType: new
+
+- Class: mult_question
+  Output: In random intercept and slope model, which parameter indicates the random effect in slope?
+  AnswerChoices: beta_00; beta_10; b_0m; b_1m
+  CorrectAnswer: b_1m
+  AnswerTests: omnitest(correctVal= 'b_1m')
+  Hint: Hint - first make sure which parameters represent random effects, then remember that slope works on predictors
+  
+- Class: figure
+  Output: "Great! Now let's start simulating a mixed effects model as shown in Rstudio viewer or in the browser."
+  Figure: SimExample.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: Let's start by setting the seed. Use the set.seed() function and set the seed to 111
+  CorrectAnswer: set.seed(111)
+  AnswerTests: omnitest(correctExpr='set.seed(111)')
+  Hint: Hint - try set.seed(111)
+  
+- Class: cmd_question
+  Output: "Initialize your parameters with some guesses. Set beta00 to be 1. Please remember to use 
+  equal sign to assign values to variables during the course."
+  CorrectAnswer: "beta00=1"
+  AnswerTests: omnitest(correctExpr='beta00=1')
+  Hint: Hint - try typing beta00=1
+
+- Class: cmd_question
+  Output: Initialize your parameters with some guesses. Set beta10 to be 2
+  CorrectAnswer: "beta10=2"
+  AnswerTests: omnitest(correctExpr='beta10=2')
+  Hint: Hint - try typing beta10=2
+
+- Class: cmd_question
+  Output: Initialize your parameters with some guesses. Set sigma02 to be 0.01
+  CorrectAnswer: "sigma02=0.01"
+  AnswerTests: omnitest(correctExpr='sigma02=0.01')
+  Hint: Hint - try typing sigma02=0.01
+  
+- Class: cmd_question
+  Output: Initialize your parameters with some guesses. Set sigma12 to be 0.1
+  CorrectAnswer: "sigma12=0.1"
+  AnswerTests: omnitest(correctExpr='sigma12=0.1')
+  Hint: Hint - try typing sigma12=0.1
+
+- Class: cmd_question
+  Output: Initialize your parameters with some guesses. Set sigma2 to be 0.5
+  CorrectAnswer: "sigma2=0.5"
+  AnswerTests: omnitest(correctExpr='sigma2=0.5')
+  Hint: Hint - try typing sigma2=0.5
+
+- Class: cmd_question
+  Output: "Now let's simulate some data that we will use to try out our example. Generate a continuous vector of 
+  length 3000 uniformly distributed from 0 to 10. This will be the predictor, call it x."  
+  CorrectAnswer: "x = runif(3000, 0, 10)"
+  AnswerTests: omnitest(correctExpr='x = runif(3000, 0, 10)')
+  Hint: Hint - try typing x = runif(3000, 0, 10)
+
+- Class: cmd_question
+  Output: "Generate a label vector of length 3000, with 30 groups named 1, 2, ..., 30, and each repeats 100 times. 
+  This will indicate the groups to which the observations belong. Call it group."  
+  CorrectAnswer: group = rep(1:30, each = 100)
+  AnswerTests: any_of_exprs('group = rep(c(1:30), each = 100)', 'group = rep(1:30, each = 100)')
+  Hint: Hint - try typing group = rep(1:30, each = 100)
+
+- Class: cmd_question
+  Output: "Generate a data frame consisting of x and group, call it dat."  
+  CorrectAnswer: dat = data.frame(x = x, group = group)
+  AnswerTests: any_of_exprs('dat = data.frame(x = x, group = group)', 'dat = data.frame(x, group)')
+  Hint: Hint - try typing dat = data.frame(x = x, group = group)
+
+- Class: cmd_question
+  Output: "Now generate group-specific parameters. First do intercept. Use rnorm to generate 30 beta0m's 
+  (mean = beta00, sd = sqrt(sigma02))."  
+  CorrectAnswer: beta0m = rnorm(30, beta00, sqrt(sigma02))
+  AnswerTests: any_of_exprs('beta0m = rnorm(30, beta00, sqrt(sigma02))', 'beta0m = rnorm(30, mean = beta00, sd = sqrt(sigma02))')
+  Hint: Hint - try typing beta0m = rnorm(30, beta00, sqrt(sigma02))
+  
+- Class: cmd_question
+  Output: "Extend the 30 intercepts to a vector of length 3000, with each value repeats 100 times. Call it beta0"  
+  CorrectAnswer: beta0 = rep(beta0m, each = 100)
+  AnswerTests: omnitest(correctExpr='beta0 = rep(beta0m, each = 100)')
+  Hint: Hint - try typing beta0 = rep(beta0m, each = 100)
+
+- Class: cmd_question
+  Output: "Then do slope. Use rnorm to generate 30 beta1m's (mean = beta10, sd = sqrt(sigma12))."  
+  CorrectAnswer: beta1m = rnorm(30, beta10, sqrt(sigma12))
+  AnswerTests: any_of_exprs('beta1m = rnorm(30, beta10, sqrt(sigma12))', 'beta1m = rnorm(30, mean = beta10, sd = sqrt(sigma12))')
+  Hint: Hint - try typing beta1m = rnorm(30, beta10, sqrt(sigma12))
+
+- Class: cmd_question
+  Output: "Extend the 30 slopes to a vector of length 3000, with each value repeats 100 times. Call it beta1"  
+  CorrectAnswer: beta1 = rep(beta1m, each = 100)
+  AnswerTests: omnitest(correctExpr='beta1 = rep(beta1m, each = 100)')
+  Hint: Hint - try typing beta1 = rep(beta1m, each = 100)
+
+- Class: cmd_question
+  Output: "Now calculate the response y of the model. Follow the model setting, use beta0, beta1, and x that
+  you already got. Don't forget to add the random effect epsilon by generating 300 samples from normal 
+  distribution (mean = 0, sd = sqrt(sigma2))"  
+  CorrectAnswer: y = beta0 + beta1 * x + rnorm(3000, 0, sqrt(sigma2))
+  AnswerTests: omnitest(correctExpr='y = beta0 + beta1 * x + rnorm(3000, 0, sqrt(sigma2))')
+  Hint: Hint - try typing y = beta0 + beta1 * x + rnorm(3000, 0, sqrt(sigma2))
+  
+- Class: cmd_question
+  Output: Add y to dat.
+  CorrectAnswer: dat$y = y
+  AnswerTests: omnitest(correctExpr='dat$y = y')
+  Hint: Hint - try typing dat$y = y
+  
+- Class: cmd_question
+  Output: Now run the function on our simulated data! First library package "lme4"!
+  CorrectAnswer: library(lme4)
+  AnswerTests: any_of_exprs('library(lme4)', 'library("lme4")')
+  Hint: Hint - try typing library(lme4)
+  
+- Class: cmd_question
+  Output: Review the help of function "lmer" in R to get a basic idea of the function.
+  CorrectAnswer: ?lme
+  AnswerTests: any_of_exprs('?lmer', 'hlep(lmer)')
+  Hint: Hint - try typing ?lmer
+  
+- Class: cmd_question
+  Output: "Now run the function. Fill the fixed effect in the formula as the same way you do in linear model. 
+  To specify the random effects, type (1 + x | group), where the part before the vertical line indicates the 
+  format (intercept and slope), and the latter part is the group information. Save the model fit as fit1."
+  CorrectAnswer: fit1 = lmer(y~x + (1 + x | group), data = dat)
+  AnswerTests: any_of_exprs('fit1 = lmer(y~x + (1 + x | group), data = dat)','fit1 = lmer(y~x + (1 + x | group), dat)')
+  Hint: Hint - try typing fit1 = lmer(y~x + (1 + x | group), data = dat)
+  
+- Class: cmd_question
+  Output: "Look at the summary of the fit1. You'll be able to see the estimates of all parameters we set." 
+  CorrectAnswer: summary(fit1)
+  AnswerTests: omnitest(correctExpr='summary(fit1)')
+  Hint: Hint - try typing summary(fit1)
+ 
+- Class: mult_question
+  Output: Look at the Random effects part in the summary of fit1. What does the variance of residual term estimate?
+  AnswerChoices: (sigma_0)^2; (sigma_1)^2; (sigma)^2
+  CorrectAnswer: (sigma)^2
+  AnswerTests: omnitest(correctVal= '(sigma)^2')
+  Hint: Hint - group:(Intercept) indicates (sigma_0)^2, group:x indicates (sigma_1)^2, and Residual indicates (sigma)^2.
+ 
+- Class: text
+  Output: "Function lme4::lmer gives all estimates of fixed and random effects in our model. You could see 
+  that the estimates are close to the true values. Things work out on our simulated data!"
+  
+- Class: figure
+  Output: "Now let's try some real data. We will use data from Jon Starkweather at the University of North Texas, 
+  from the following address http://www.unt.edu/rss/class/Jon/R_SC/Module9/lmm.data.txt. The data is saved in a 
+  data frame named real.data"
+  Figure: readdata.R
+  FigureType: new
+  
+- Class: cmd_question
+  Output: "Use function 'head' to see how the data is organized." 
+  CorrectAnswer: head(real.data)
+  AnswerTests: omnitest(correctExpr='head(real.data)')
+  Hint: Hint - try typing head(real.data)
+
+- Class: cmd_question
+  Output: "Here we have data on the extroversion of subjects nested within classes and within schools. Let's
+  assume a LME model of extro with 1. fixed effects on open, agree, social, and 2. random intercept and random slope 
+  of open that vary across both school and class levels. Type school/class to specify the group (level) information."
+  CorrectAnswer: lmer(extro ~ open + agree + social + (1 + open | school/class), real.data)
+  AnswerTests: omnitest(correctExpr='lmer(extro ~ open + agree + social + (1 + open | school/class), real.data)')
+  Hint: Hint - try typing lmer(extro ~ open + agree + social + (1 + open | school/class), real.data)
+  
+- Class: mult_question
+  Output: What is the estimate of standard deviation of intercept between classes within a certain school?
+  CorrectAnswer: 2.625; 0.006; 9.510; 0.004; 0.983
+  AnswerTests: omnitest(correctVal= '2.625')
+  Hint: Hint - Check the Random effects panel in the model summary and try to figure out the interpretation of the estimates.
+
+- Class: figure
+  Output: "A little more to read: Correlation between subjects within a level"
+  Figure: corstr.R
+  FigureType: new
+
+- Class: figure
+  Output: "A little more to read: Generalized linear mixed model (GLMM)"
+  Figure: GLMM.R
+  FigureType: new
+

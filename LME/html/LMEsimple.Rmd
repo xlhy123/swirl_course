@@ -1,0 +1,26 @@
+---
+output: html_document
+---
+### Only random intercept model
+
+$$y_{im} = \beta_{0m} + \beta_1 x_{im} + \epsilon_{im}, \quad i = 1, 2, ..., n, \quad m = 1,2, ..., M, \quad \epsilon_{im} \sim n(0, \sigma^2),$$
+$$\beta_{0m} = \beta_{00} + b_{0m}, b_{0m} \sim N(0, \sigma_0^2)$$
+
+where $y_{im}$ corresponds to data for observation $i$ and group $m$, $n$ is the total number of observations, and $b_{0m}$ and $\epsilon_{im}$ are independent of each other. After substituting the group-level parameters in the model, the model for the response vector becomes
+
+$$y_{im} = \underbrace{\beta_{00} + \beta_1 x_{im}}_{\text{fixed effects}} + \underbrace{b_{0m}}_{\text{random effects}} + \epsilon_{im}.$$
+
+### Random intercept and slope model
+
+$$y_{im} = \beta_{0m} + \beta_{1m} x_{im} + \epsilon_{im}, \quad i = 1, 2, ..., n, \quad m = 1,2, ..., M, \quad \epsilon_{im} \sim n(0, \sigma^2),$$
+$$\beta_{0m} = \beta_{00} + b_{0m}, b_{0m} \sim N(0, \sigma_0^2)$$
+$$\beta_{1m} = \beta_{10} + b_{1m}, b_{1m} \sim N(0, \sigma_1^2)$$
+
+or
+
+$$b_m = \begin{pmatrix} b_{0m} \\ b_{1m} \end{pmatrix} \sim N \begin{pmatrix} 0, & 
+\begin{pmatrix} \sigma_0^2 & 0 \\ 0 & \sigma_1^2 \end{pmatrix} \end{pmatrix}$$
+
+After substituting the group-level parameters in the first-level model, the model for the response vector is
+
+$$y_{im} = \underbrace{\beta_{00} + \beta_{10} x_{im}}_{\text{fixed effects}} + \underbrace{b_{0m} + b_{1m} x_{im}}_{\text{random effects}} + \epsilon_{im}.$$
