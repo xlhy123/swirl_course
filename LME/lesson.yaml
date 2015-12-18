@@ -87,7 +87,7 @@
   Hint: Hint - try typing dat = data.frame(x = x, group = group)
 
 - Class: cmd_question
-  Output: "Now generate group-specific parameters. First do intercept. Use rnorm to generate 30 normals with (mean = beta00, sd = sqrt(sigma02)). Call it beta0m, it is the 30 group-specific intercepts."  
+  Output: "Now generate group-specific parameters. First do intercept. Use rnorm to generate 30 normals with (mean = beta00, sd = sqrt(sigma02)). Call it beta0m, it contains the 30 group-specific intercepts."  
   CorrectAnswer: beta0m = rnorm(30, beta00, sqrt(sigma02))
   AnswerTests: any_of_exprs('beta0m = rnorm(30, beta00, sqrt(sigma02))', 'beta0m = rnorm(30, mean = beta00, sd = sqrt(sigma02))')
   Hint: Hint - try typing beta0m = rnorm(30, beta00, sqrt(sigma02))
@@ -99,7 +99,7 @@
   Hint: Hint - try typing beta0 = rep(beta0m, each = 100)
 
 - Class: cmd_question
-  Output: "Then do slope. Use rnorm to generate 30 normals with (mean = beta10, sd = sqrt(sigma12)). Call it beta1m, it is the 30 group-specific slopes of x."  
+  Output: "Then do slope. Use rnorm to generate 30 normals with (mean = beta10, sd = sqrt(sigma12)). Call it beta1m, it contains the 30 group-specific slopes of x."  
   CorrectAnswer: beta1m = rnorm(30, beta10, sqrt(sigma12))
   AnswerTests: any_of_exprs('beta1m = rnorm(30, beta10, sqrt(sigma12))', 'beta1m = rnorm(30, mean = beta10, sd = sqrt(sigma12))')
   Hint: Hint - try typing beta1m = rnorm(30, beta10, sqrt(sigma12))
@@ -111,7 +111,7 @@
   Hint: Hint - try typing beta1 = rep(beta1m, each = 100)
 
 - Class: cmd_question
-  Output: "Add beta0 and beta1 to dat. Now the parameters and predictors are one-to-one."  
+  Output: "Add beta0 and beta1 to dat. Now the parameters and predictors (x) are one-to-one."  
   CorrectAnswer: dat = cbind(dat, beta0, beta1)
   AnswerTests: omnitest(correctExpr='dat = cbind(dat, beta0, beta1)')
   Hint: Hint - try typing dat = cbind(dat, beta0, beta1)
@@ -141,7 +141,7 @@
   Hint: Hint - try typing ?lmer
   
 - Class: cmd_question
-  Output: "Now regress y on x with random intercept and slope using data dat. The formula is y ~ x + (1 + x | group), where x indicates fixed effect, and (1 + x | group) indicates random effects. The part before the vertical line is the random terms (intercept and slope), and the latter part is the group information. Save the model fit as fit1."
+  Output: "Now regress y on x with random intercept and slope using data dat. The formula is y ~ x + (1 + x | group), where x indicates fixed effect, and (1 + x | group) indicates random effects. The part before the vertical line are the random terms (intercept and slope), and the latter part is the group information. Save the model fit as fit1."
   CorrectAnswer: fit1 = lmer(y~x + (1 + x | group), data = dat)
   AnswerTests: any_of_exprs('fit1 = lmer(y~x + (1 + x | group), data = dat)','fit1 = lmer(y~x + (1 + x | group), dat)')
   Hint: Hint - try typing fit1 = lmer(y~x + (1 + x | group), data = dat)
@@ -174,8 +174,8 @@
   Hint: Hint - try typing head(real.data)
 
 - Class: cmd_question
-  Output: "Here we have data on the extroversion of subjects nested within classes and within schools. Let's fit an LME model of extro with \n
-  (1) fixed effects on open, agree, social, and 
+  Output: "Here we have data on the extroversion of subjects nested within classes and within schools. Let's fit an LME model regressing extro on \n
+  (1) fixed effects of open, agree, social, and 
   (2) random intercept and random slope of open that vary across both school and class levels. 
   Type school/class to set the group (level) information. Call the model fit2."
   CorrectAnswer: fit2 = lmer(extro ~ open + agree + social + (1 + open | school/class), real.data)
