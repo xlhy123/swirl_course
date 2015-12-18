@@ -1,22 +1,22 @@
 ---
 title: "Generalized Linear Mixed Model (GLMM)"
-author: "Hanying Li"
-date: "December 17, 2015"
 output: html_document
 ---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Background
+Generalized linear mixed models (or GLMMs) are an extension of linear mixed models to allow response variables from different distributions, such as binary responses. Alternatively, you could think of GLMMs as an extension of generalized linear models (e.g., logistic regression) to include both fixed and random effects (hence mixed models).
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## Link Functions and Families
+What is different between LMMs and GLMMs is that the response variables can come from different distributions besides gaussian. In addition, rather than modeling the responses directly, some link function is often applied, such as a log link. You can get more information about the link functions and families from generalized linear models (GLM). http://www.sagepub.com/sites/default/files/upm-binaries/21121_Chapter_15.pdf
 
-```{r}
-summary(cars)
-```
+## R functions about GLMM
+lme4::glmer is a function build in package lme4. It is the generalized version of lmer. 
 
-You can also embed plots, for example:
-
-```{r, echo=FALSE}
-plot(cars)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+#### Usage
+glmer(formula, data = NULL, family = gaussian,
+    control = glmerControl(), start = NULL, verbose = 0L,
+    nAGQ = 1L, subset, weights, na.action, offset,
+    contrasts = NULL, mustart, etastart,
+    devFunOnly = FALSE, ...)
+    
+The _family_ argument controls the link function you use. See R help for more details of the GLM family it supports.
